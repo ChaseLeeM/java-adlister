@@ -6,18 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//User goes to http://localhost:8080/hello in the browser and sees "Hello World"
-
-@WebServlet("/hello")
-public class HelloWorldServlet extends HttpServlet {
+@WebServlet("/counter")
+public class CounterServlet extends HttpServlet {
+    public static int counter = 0;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter out = res.getWriter();
-        String name = req.getParameter("name");
-        if (name == null) {
-            out.println("Hello World!");
-        } else {
-            out.println("Hello " + name + "!");
-
+        out.println("You are visitor number " + counter);
+        counter++;
     }
 }
