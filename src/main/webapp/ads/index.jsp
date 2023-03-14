@@ -10,7 +10,7 @@
 <body>
     <jsp:include page="../partials/navbar.jsp" />
     <div class="container">
-        <h1>Welcome to the Adlister!</h1>
+        <h1>Ads Index!</h1>
     </div>
 
     <c:forEach var="ad" items="${ads}">
