@@ -4,7 +4,7 @@
     <jsp:include page="../partials/head.jsp">
         <jsp:param name="title" value="Your Profile" />
     </jsp:include>
-</head>
+    <title>Profile</title></head>
 <body>
     <jsp:include page="../partials/navbar.jsp" />
 
