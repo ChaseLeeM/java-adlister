@@ -15,7 +15,7 @@ public class ListAdsDao implements Ads {
         return ads;
     }
 
-    public Long insert(Ad ad) {
+    public void insert(Ad ad) {
         // make sure we have ads
         if (ads == null) {
             ads = generateAds();
@@ -24,7 +24,6 @@ public class ListAdsDao implements Ads {
         // really the dao would handle this
         ad.setId((long) ads.size());
         ads.add(ad);
-        return ad.getId();
     }
 
     private List<Ad> generateAds() {

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "controllers.RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
@@ -14,7 +15,7 @@ public class RegisterServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -22,7 +23,7 @@ public class RegisterServlet extends HttpServlet {
         boolean inputHasErrors = username.isEmpty()
                 || email.isEmpty()
                 || password.isEmpty()
-                || (! password.equals(passwordConfirmation));
+                || (!password.equals(passwordConfirmation));
 
         if (inputHasErrors) {
             response.sendRedirect("/register");
@@ -31,8 +32,22 @@ public class RegisterServlet extends HttpServlet {
 
 
         User user = new User(username, email, password);
-        DaoFactory.getUsersDao().insert(user);
+        try {
+            DaoFactory.getUsersDao().insert(user);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         response.sendRedirect("/login");
+
+
+        // TODO: if a user was successfully created, send them to their profile
+        try {
+            request.getSession().setAttribute("user", DaoFactory.getUsersDao().findByUsername(username));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        request.getRequestDispatcher("/WEB-INF/profile.jsp").forward(request, response);
     }
+
 }
 
