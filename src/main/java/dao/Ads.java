@@ -1,3 +1,7 @@
+package dao;
+
+import dao.Ad;
+
 import java.util.List;
 
 public interface Ads {
