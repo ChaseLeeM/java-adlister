@@ -32,22 +32,16 @@ public class RegisterServlet extends HttpServlet {
 
 
         User user = new User(username, email, password);
-        try {
-            DaoFactory.getUsersDao().insert(user);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        response.sendRedirect("/login");
-
 
         // TODO: if a user was successfully created, send them to their profile
         try {
+            DaoFactory.getUsersDao().insert(user);
             request.getSession().setAttribute("user", DaoFactory.getUsersDao().findByUsername(username));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Profile page load after registration.");
         request.getRequestDispatcher("/WEB-INF/profile.jsp").forward(request, response);
     }
 
 }
-
